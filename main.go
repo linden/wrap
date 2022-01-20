@@ -3,11 +3,11 @@ package main
 import (
 	"bytes"
 	"flag"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
+	"strings"
 )
 
 var ID string
@@ -72,33 +72,34 @@ func main() {
 		log.Fatal(err)
 	}
 
-	err = ioutil.WriteFile("./"+bundle+".app"+"/Contents/Info.plst",
-		[]byte(fmt.Sprintf(`<?xml version="1.0" encoding="UTF-8"?>
-		<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-		<plist version="1.0">
-		<dict>
-		    <key>CFBundleExecutable</key>
-		    <string>%s</string>
-		    <key>CFBundleIdentifier</key>
-		    <string>com.%s.%s</string>
-		    <key>CFBundleInfoDictionaryVersion</key>
-		    <string>6.0</string>
-		    <key>CFBundleName</key>
-		    <string>%s</string>
-		    <key>CFBundlePackageType</key>
-		    <string>APPL</string>
-		    <key>CFBundleShortVersionString</key>
-		    <string>1.0.0</string>
-		    <key>CFBundleVersion</key>
-		    <string>20</string>
-		    <key>LSMinimumSystemVersion</key>
-		    <string>10.6</string>
-		    <key>LSUIElement</key>
-		    <true/>
-		    <key>LSBackgroundOnly</key>
-		    <true/>
-		</dict>
-		</plist>`, bundle, origin, bundle, bundle)), 0755)
+	err = ioutil.WriteFile("./"+bundle+".app"+"/Contents/Info.plst", []byte(strings.Join([]string{
+		"<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+		"<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">",
+		"<plist version=\"1.0\">",
+		"<dict>",
+		"\t<key>CFBundleExecutable</key>",
+		"\t<string>" + bundle + "</string>",
+		"\t<key>CFBundleIdentifier</key>",
+		"\t<string>com." + origin + "." + bundle + "</string>",
+		"\t<key>CFBundleInfoDictionaryVersion</key>",
+		"\t<string>6.0</string>",
+		"\t<key>CFBundleName</key>",
+		"\t<string>" + bundle + "</string>",
+		"\t<key>CFBundlePackageType</key>",
+		"\t<string>APPL</string>",
+		"\t<key>CFBundleShortVersionString</key>",
+		"\t<string>1.0.0</string>",
+		"\t<key>CFBundleVersion</key>",
+		"\t<string>20</string>",
+		"\t<key>LSMinimumSystemVersion</key>",
+		"\t<string>10.6</string>",
+		"\t<key>LSUIElement</key>",
+		"\t<true/>",
+		"\t<key>LSBackgroundOnly</key>",
+		"\t<true/>",
+		"</dict>",
+		"</plist>",
+	}, "\r\n")), 0755)
 
 	if err != nil {
 		log.Fatal(err)
