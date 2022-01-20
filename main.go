@@ -72,7 +72,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	err = ioutil.WriteFile("./"+bundle+".app"+"/Contents/Info.plst", []byte(strings.Join([]string{
+	err = ioutil.WriteFile("./"+bundle+".app"+"/Contents/Info.plist", []byte(strings.Join([]string{
 		"<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
 		"<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">",
 		"<plist version=\"1.0\">",
